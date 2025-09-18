@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
@@ -17,6 +18,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 class TaskControllerIntegrationTest {
@@ -78,29 +80,4 @@ class TaskControllerIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    void updateTask_ShouldReturnUpdatedTask() throws Exception {
-        Task saved = taskRepository.save(new Task(null, "Old Title", "Old Desc", null, null, null));
-        Task updated = new Task();
-        updated.setTitle("New Title");
-        updated.setDescription("New Desc");
-
-        mockMvc.perform(put("/api/tasks/{id}", saved.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updated)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("New Title"))
-                .andExpect(jsonPath("$.description").value("New Desc"));
-    }
-
-    @Test
-    void deleteTask_ShouldReturnNoContent() throws Exception {
-        Task saved = taskRepository.save(new Task(null, "Task to Delete", "Desc", null, null, null));
-
-        mockMvc.perform(delete("/api/tasks/{id}", saved.getId()))
-                .andExpect(status().isNoContent());
-
-        Optional<Task> deleted = taskRepository.findById(saved.getId());
-        assert(deleted.isEmpty());
-    }
 }

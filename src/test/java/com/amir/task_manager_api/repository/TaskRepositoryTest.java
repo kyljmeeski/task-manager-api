@@ -1,7 +1,6 @@
 package com.amir.task_manager_api.repository;
 
 import com.amir.task_manager_api.model.Task;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 import java.util.Optional;
 
+import static com.amir.task_manager_api.model.Task.TaskStatus.RESOLVED;
+import static com.amir.task_manager_api.model.Task.TaskStatus.NEW;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -26,7 +27,7 @@ class TaskRepositoryTest {
         task = Task.builder()
                 .title("Test Task")
                 .description("This is a test task")
-                .status("NEW")
+                .status(NEW)
                 .build();
     }
 
@@ -51,7 +52,7 @@ class TaskRepositoryTest {
     @Test
     void testUpdateTask() {
         Task savedTask = taskRepository.save(task);
-        savedTask.setStatus("DONE");
+        savedTask.setStatus(RESOLVED);
         Task updatedTask = taskRepository.save(savedTask);
 
         assertThat(updatedTask.getStatus()).isEqualTo("DONE");
