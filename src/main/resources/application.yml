@@ -26,6 +26,10 @@ spring:
         smtp:
           auth: true
           starttls.enable: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 external-api:
   devices:
@@ -33,3 +37,7 @@ external-api:
 
 admin:
   email: ${ADMIN_EMAIL}
+
+cache:
+  type: redis
+
