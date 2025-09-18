@@ -16,7 +16,20 @@ spring:
       path: /v3/api-docs
     swagger-ui:
       path: /swagger-ui.html
+  mail:
+    host: ${SMTP_HOST}
+    port: ${SMTP_PORT}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
 
 external-api:
   devices:
     url: https://api.restful-api.dev/objects
+
+admin:
+  email: ${ADMIN_EMAIL}
