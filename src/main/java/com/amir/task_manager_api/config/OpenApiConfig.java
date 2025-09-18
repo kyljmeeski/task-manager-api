@@ -16,7 +16,7 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Task Manager API")
-                        .description("Простой REST API для управления задачами. " +
+                        .description("Простой REST API для управления задачами и просмотра устройств. " +
                                 "Поддерживает создание, получение, обновление и удаление задач.")
                         .version("1.0.0")
                         .contact(new Contact()

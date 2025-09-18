@@ -17,3 +17,6 @@ spring:
     swagger-ui:
       path: /swagger-ui.html
 
+external-api:
+  devices:
+    url: https://api.restful-api.dev/objects
