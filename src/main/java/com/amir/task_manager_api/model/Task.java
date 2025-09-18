@@ -22,7 +22,8 @@ public class Task {
     @Column(length = 1000)
     private String description;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
     private LocalDateTime createdAt;
 
@@ -38,6 +39,14 @@ public class Task {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+    public enum TaskStatus {
+        NEW,
+        IN_PROGRESS,
+        RESOLVED,
+        CANCELED
+    }
+
 }
 
 

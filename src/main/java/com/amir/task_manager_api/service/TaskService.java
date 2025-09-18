@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.amir.task_manager_api.model.Task.TaskStatus.*;
+
 @Service
 @RequiredArgsConstructor
 public class TaskService {
@@ -35,7 +37,35 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public Task takeToWork(long id) {
+        Task task = taskRepository.findById(id).orElseThrow();
+        if (task.getStatus() != NEW) {
+            throw new IllegalStateException("Task have to be NEW to take to work");
+        }
+        task.setStatus(IN_PROGRESS);
+        return taskRepository.save(task);
+    }
+
+    public Task resolve(long id) {
+        Task task = taskRepository.findById(id).orElseThrow();
+        if (task.getStatus() != IN_PROGRESS) {
+            throw new IllegalStateException("Task have to be IN_PROGRESS to resolve");
+        }
+        task.setStatus(RESOLVED);
+        return taskRepository.save(task);
+    }
+
+    public Task cancel(long id) {
+        Task task = taskRepository.findById(id).orElseThrow();
+        if (task.getStatus() != IN_PROGRESS) {
+            throw new IllegalStateException("Task have to be IN_PROGRESS to cancel");
+        }
+        task.setStatus(CANCELED);
+        return taskRepository.save(task);
+    }
+
     public void deleteTask(Long id) {
+        Task task = taskRepository.findById(id).orElseThrow();
         taskRepository.deleteById(id);
     }
 
