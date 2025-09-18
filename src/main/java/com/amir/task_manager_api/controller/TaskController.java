@@ -1,5 +1,6 @@
 package com.amir.task_manager_api.controller;
 
+import com.amir.task_manager_api.dto.NewTaskDTO;
 import com.amir.task_manager_api.model.Task;
 import com.amir.task_manager_api.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,8 +22,13 @@ public class TaskController {
 
     @PostMapping
     @Operation(summary = "Создать задачу")
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        Task createdTask = taskService.createTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody NewTaskDTO newTask) {
+        Task createdTask = taskService.createTask(Task.builder()
+                .title(newTask.title())
+                .description(newTask.description())
+                .status("NEW")
+                .build()
+        );
         return ResponseEntity.created(URI.create("/api/tasks/" + createdTask.getId()))
                 .body(createdTask);
     }
